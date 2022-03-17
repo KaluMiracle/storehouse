@@ -1,12 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import { Switch, 
+  Route, Redirect, BrowserRouter, Routes,} from "react-router-dom";
 import App from './App';
+import AddProduct from './addproduct';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+      <BrowserRouter>
+
+        
+        <Routes>
+
+          <Route path="/" element={<App/>}/>
+          <Route exact path="addproduct" element={<AddProduct/>} />
+          
+          
+          
+        </Routes>  
+
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );
