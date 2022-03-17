@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const URL = 'http://localhost/products_api/api/delete'
+const URL = 'http://192.168.43.67/products_api/api/delete'
 
 export default async function deleteProducts(selectedProducts) {
     const body = {
