@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const URL = 'http://192.168.43.67/products_api/api/create'
+const URL = 'http://localhost/products_api/api/create'
 
 export default async function createProduct(product) {
     const body = {

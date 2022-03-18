@@ -71,6 +71,7 @@ const AddProduct = () =>{
         };
 
         const data = await createProduct(product);
+        console.log(data.message);
 
     };
 
@@ -98,7 +99,7 @@ const AddProduct = () =>{
 
                     <div className={styles.inputContainer}>
                         <label>Name</label>
-                        <input id='name' classname={styles.name} onChange={
+                        <input id='name' className={styles.name} onChange={
                             (e) => setName(e.target.value)
                         }/>
                     </div>
