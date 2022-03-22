@@ -1,5 +1,5 @@
 
-const URL = 'https://products-api-miracle.herokuapp.com/api/read'
+const URL = 'https://products-api-miracle.herokuapp.com/src/api/read'
 
 //function to get Products from the DataBase
 export default async function fetchProducts() {

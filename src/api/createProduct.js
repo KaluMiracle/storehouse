@@ -1,5 +1,5 @@
 
-const URL = 'https://products-api-miracle.herokuapp.com/api/create'
+const URL = 'https://products-api-miracle.herokuapp.com/src/api/create'
 
 
 // function to add a Product to the Database

@@ -1,5 +1,5 @@
 
-const URL = 'https://products-api-miracle.herokuapp.com/api/delete'
+const URL = 'https://products-api-miracle.herokuapp.com/src/api/delete'
 
 //function to delete Products from the database
 
