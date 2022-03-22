@@ -1,6 +1,7 @@
 
 const URL = 'https://products-api-miracle.herokuapp.com/api/create'
 
+
 // function to add a Product to the Database
 export default async function createProduct(product) {
     const body = {

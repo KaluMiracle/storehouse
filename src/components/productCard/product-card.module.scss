@@ -26,9 +26,9 @@ $color-primary: black;
         height: 15px;
         justify-self: flex-start;
         align-self: flex-start;
-        z-index: 3;
         border: none;
         background-color: black;
+        z-index: 2;
     }
 
     img{
@@ -37,7 +37,7 @@ $color-primary: black;
 
         position: absolute;
         top: 0;
-        z-index: 1;
+        z-index: 0;
     }
 
     .imageOverlay{
@@ -46,7 +46,7 @@ $color-primary: black;
 
         position: absolute;
         top: -1px;
-        z-index: 2;
+        z-index: 1;
 
         background-color: rgba(0.0, 0.0, 0.0, 0.1);
     }
@@ -63,7 +63,6 @@ $color-primary: black;
         right: 10px;
         color: white;
         font-size: 10px;
-        z-index: 2;
         overflow: hidden;
 
     }

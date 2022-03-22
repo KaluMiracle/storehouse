@@ -59,15 +59,7 @@ const AddProduct = () =>{
             setDetails('')
         }
     };
-
-    //for Generating Sku
-    const skuGenerator = {
-        'dvd': 'JVC',
-        'book': 'GGWP',
-        'furniture': 'TRI'
-    };
     
-
     //Handling Save if sku, name or price is empty, cancel execution, else save to database
 
     const handleSave = async () => {
@@ -77,7 +69,7 @@ const AddProduct = () =>{
         }
         setSavingText("Saving Product...");
         let product = {
-            sku: `${skuGenerator[productType]}${sku}`,
+            sku: sku,
             price: price,
             name: name,
             category_id: productType,
@@ -87,10 +79,12 @@ const AddProduct = () =>{
             const data = await createProduct(product);
             setSavingText(data.message)
             
-        } catch (error) {
+        } 
+        catch (error) {
             setSavingText('error connecting to database')
         }
 
+        console.log(product)
     };
 
     
@@ -116,7 +110,6 @@ const AddProduct = () =>{
                 <InputContianer 
                     inputId='sku' 
                     labelText='SKU'
-                    placeholderText={skuGenerator[productType]} 
                     handler= {
                         (value)=>setSku(value)
                     }

@@ -10,7 +10,6 @@ const InputContianer = ({
     labelText,
     handler,
     displayProp = '',
-    placeholderText = '',
 }) => {
 
     
@@ -18,7 +17,7 @@ const InputContianer = ({
     return (
         <div className={styles.inputContainer} style= {{display: displayProp, ...styles}}>
             <label>{`${labelText}`}</label>
-            <input id={inputId} type={inputId==='price'? 'number' : 'text'} placeholder={placeholderText}  onMouseOut={
+            <input id={inputId} type={inputId==='price'? 'number' : 'text'} onMouseOut={
                 (e) => handler(e.target.value)
             }/>
         </div>

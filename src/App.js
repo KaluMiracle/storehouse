@@ -38,6 +38,8 @@ function App() {
 
   //deleting PRoducts
   const deleteHandler = async () =>{
+    setInfoText("deleting...");
+
     try{
       const data = await deleteProducts(selectedProducts);
       setInfoText(data.message);
