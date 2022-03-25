@@ -1,35 +1,41 @@
-import React, { useRef, useState } from 'react'
-import styles from './add-product.module.scss'
+import React, {useRef, useState } from 'react'
 import createProduct from '../api/createProduct';
+
+import InputContianer from '../components/inputContainer';
 import { Link } from 'react-router-dom';
+
+import styles from './add-product.module.scss';
 const AddProduct = () =>{
 
+    // for handling display for different Product types
     const [dvdDisplay, setDvdDisplay] = useState('flex');
     const [furnitureDisplay, setFurnitureDisplay] = useState('none');
     const [bookDisplay, setBookDisplay] = useState('none');
 
+    //product types
     const FURNITURE ='furniture';
     const DVD ='dvd';
     const BOOK ='book';
 
-    let product = {};
-
-    const [sku, setSku] = useState(0);
+    //states for sku, name, price, details etc
+    
+    const [sku, setSku] = useState('');
     const [name, setName] = useState('');
     const [price, setPrice] = useState(0);
-
-    const [productType, setProductType] = useState(DVD);
     const [details, setDetails] = useState('');
+    const [length, setLength] = useState('');
+    const [width, setWidth] = useState('');
+    const [height, setHeight] = useState('');
 
-    const [height, setHeight] = useState(0);
-    const [width, setWidth] = useState(0);
-    const [length, setLength] = useState(0);
+    //state for Product types initializing it with DVD
+    const [productType, setProductType] = useState(DVD);
+    //state for diplaying saveing information
+    const [savingText, setSavingText] = useState('');
 
-    const buttonDisable =  (sku === 0 || name === '' || price === 0) ? true : false;;
-    
-
+    // ref used in the 'select' tag for product types
     const productTypeSelector = useRef();
     
+    //for handling display
     const displayDetailsFormHandler = {
         'dvd': () => {
             setDvdDisplay('flex')
@@ -53,122 +59,140 @@ const AddProduct = () =>{
             setDetails('')
         }
     };
-
-    const skuGenerator = {
-        'dvd': 'JVC',
-        'book': 'GGWP',
-        'furniture': 'TRI'
-    };
     
+    //Handling Save if sku, name or price is empty, cancel execution, else save to database
 
     const handleSave = async () => {
-        product = {
-            sku: `${skuGenerator[productType]}${sku}`,
-            price: parseInt(price),
+        if (sku==='' || name==='' || price===0) {
+            setSavingText("fill in required details")
+            return
+        }
+        setSavingText("Saving Product...");
+        let product = {
+            sku: sku,
+            price: price,
             name: name,
             category_id: productType,
             details: productType === FURNITURE ? `${height}X${width}X${length}`  : details
         };
+        try {
+            const data = await createProduct(product);
+            setSavingText(data.message)
+            
+        } 
+        catch (error) {
+            setSavingText('error connecting to database')
+        }
 
-        const data = await createProduct(product);
-        console.log(data.message);
-
+        console.log(product)
     };
 
     
-
     return(
         <div className={styles.index}>
-                <div className={styles.container}>
-                        <p>Add Product</p>
-                        <button disabled={buttonDisable}  onClick={handleSave}>SAVE</button>
-                        <Link to={'/'}>
-                            <button  >CANCEL</button>
-                        </Link>
-                        
+            <div className={styles.container}>
+                <p>Add Product</p>
+                
+                <div>
+                    <p>{savingText}</p>
+                    <button  onClick={handleSave}>SAVE</button>
+                    
+                    <Link to={'/'}>
+                        <button  >CANCEL</button>
+                    </Link>
                 </div>
 
-                <form id={'product-form'} className={styles.productForm}>
-
-                    <div className={styles.inputContainer}>
-                        <label>SKU</label>
-                        <input id='sku' type={'number'} placeholder={`${skuGenerator[productType]}-`}  onChange={
-                            (e) => setSku(e.target.value)
-                        }/>
-                    </div>
-
-                    <div className={styles.inputContainer}>
-                        <label>Name</label>
-                        <input id='name' className={styles.name} onChange={
-                            (e) => setName(e.target.value)
-                        }/>
-                    </div>
-
-                    <div className={styles.inputContainer}>
-                        <label>Price ($)</label>
-                        <input id='price' type={'number'} onChange={
-                            (e) => setPrice(e.target.value)
-                        }/>
-                    </div>
                     
-                    <div className={styles.inputContainer} >
-                        <label>Type Switcher</label>
-                        <select id='productType' ref={productTypeSelector} onChange={
-                            () => displayDetailsFormHandler[productTypeSelector.current.value]()
-                        }>
-                            <option value={'dvd'}>DVD</option>
-                            <option value={'book'}>Book</option>
-                            <option value={'furniture'}>Furniture</option>
+            </div>
 
-                        </select>
-                    </div>
+            <form id={'product-form'} className={styles.productForm}>
 
-                    <div className={styles.furnitureContainer} style={{
-                        display: `${furnitureDisplay}`,
-                        ...styles
-                    }}>
-                        <div className={styles.inputContainer}>
-                            <label>Height (CM)</label>
-                            <input id='height' onChange={
-                                (e) => setHeight(e.target.value)
-                            }/>
-                        </div>
+                <InputContianer 
+                    inputId='sku' 
+                    labelText='SKU'
+                    handler= {
+                        (value)=>setSku(value)
+                    }
+                />
 
-                        <div className={styles.inputContainer}>
-                            <label>Width (CM)</label>
-                            <input id='width' onChange={
-                                (e) => setWidth(e.target.value)
-                            }/>
-                        </div>
+                <InputContianer 
+                    inputId='name' 
+                    labelText='Name' 
+                    handler= {
+                        (value)=>setName(value)
+                    }
 
-                        <div className={styles.inputContainer}>
-                            <label>Length (CM)</label>
-                            <input id='length' onChange={
-                                (e) => setLength(e.target.value)
-                            }/>
-                        </div>
-                    </div>
+                    valueText={sku}
+                />
 
-                    <div className={styles.inputContainer}  style={{
-                        display: `${dvdDisplay}`,
-                        ...styles
-                    }}>
-                        <label>Size (MB)</label>
-                        <input  id='size' onChange={
-                            (e) => setDetails(`${e.target.value}MB`)
-                        }/>
-                    </div>
 
-                    <div className={styles.inputContainer} style={{
-                        display: `${bookDisplay}`,
-                        ...styles
-                    }}>
-                        <label>Weight (KG)</label>
-                        <input id='weight' onChange={
-                            (e) =>setDetails(`${e.target.value}KG`)
-                        }/>
-                    </div>
-                </form>
+                <InputContianer 
+                    inputId='price' 
+                    labelText='Price ($)' 
+                    handler= {
+                        (value)=>setPrice(value)
+                    }
+                />
+                
+                <div className={styles.inputContainer} >
+                    <label>Type Switcher</label>
+                    <select id='productType' ref={productTypeSelector} onChange={
+                        () => displayDetailsFormHandler[productTypeSelector.current.value]()
+                    }>
+                        <option value={'dvd'}>DVD</option>
+                        <option value={'book'}>Book</option>
+                        <option value={'furniture'}>Furniture</option>
+
+                    </select>
+                </div>
+
+                <div className={styles.furnitureContainer} style={{
+                    display: `${furnitureDisplay}`,
+                    ...styles
+                }}>
+                    <InputContianer 
+                        inputId='height' 
+                        labelText='Height (CM)' 
+                        handler= {
+                            (value)=>setHeight(value)
+                        }
+                    />
+
+                    <InputContianer 
+                        inputId='width' 
+                        labelText='Width (CM)' 
+                        handler= {
+                            (value)=>setWidth(value)
+                        }
+                    />
+
+                    <InputContianer 
+                        inputId='length' 
+                        labelText='Length (CM)' 
+                        handler= {
+                            (value)=>setLength(value)
+                        }
+                    />
+                </div>
+
+                <InputContianer 
+                    inputId='size' 
+                    labelText='Size (MB)' 
+                    displayProp={`${dvdDisplay}`} 
+                    handler= {
+                        (value)=>setDetails(`${value}MB`)
+                    }
+                />
+
+                <InputContianer 
+                    inputId='weight' 
+                    labelText='Weight (KG)' 
+                    displayProp={`${bookDisplay}`} 
+                    handler= {
+                        (value)=>setDetails(`${value}KG`)
+                    }
+                />
+            </form>
             
             <footer className={styles.footer} >Scandiweb Test assignment</footer>
             

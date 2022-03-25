@@ -1,6 +1,7 @@
-import axios from "axios";
 
-const URL = 'http://localhost/products_api/api/delete'
+const URL = 'https://products-api-miracle.herokuapp.com/src/api/delete'
+
+//function to delete Products from the database
 
 export default async function deleteProducts(selectedProducts) {
     const body = {
@@ -10,15 +11,12 @@ export default async function deleteProducts(selectedProducts) {
 
     let products = []
     await fetch(URL, body)
-        .then(response =>{
-            products = response.json();
-        })
-        .catch(error =>{
-            console.log("errorrr: " + error)
-        });
+    .then(response =>{
+        products = response.json();
+    })
 
 
-  return products;
+    return products;
     
   
 }

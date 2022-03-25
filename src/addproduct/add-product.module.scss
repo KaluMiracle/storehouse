@@ -1,4 +1,4 @@
-$color-primary: green;
+$color-primary: black;
 .index{
   width: 100vw;
   margin: 0;
@@ -25,7 +25,21 @@ $color-primary: green;
 
   p{
     font-size: 20px;
-    width: 70%;
+    margin-right: 40%;
+  }
+
+  div{
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    p{
+      font-size: 10px;
+      color: $color-primary ;
+      margin: 0;
+    }
   }
 
   button{

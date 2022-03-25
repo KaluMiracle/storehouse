@@ -4,6 +4,7 @@ import dvd from '../../assets/img/dvd.png';
 
 import styles from './product-card.module.scss';
 
+// A conponent for displaying the Products
 const ProductCard = ({
     sku,
     name,
@@ -18,7 +19,6 @@ const ProductCard = ({
         "furniture": "dimensions",
         "book": 'weight',
         'dvd': "size",
-        
     }
     const images={
         "furniture": furniture,
@@ -26,6 +26,8 @@ const ProductCard = ({
         'dvd': dvd,
         
     }
+
+    // handle check; add the product to selectedProducts if it's not in the array and remove from the array when unchecked
     
     const handleCheck = (e) => {
         const {checked} = e.target;
@@ -40,7 +42,7 @@ const ProductCard = ({
                 type={'checkbox'} 
                 onChange={handleCheck}
             />
-            <img src={images[categoryId]}/>
+            <img src={images[categoryId]} alt=''/>
             <div className={styles.imageOverlay}></div>
 
             <div className={styles.sku}>{sku}</div>

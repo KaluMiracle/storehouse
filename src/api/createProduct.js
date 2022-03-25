@@ -1,7 +1,8 @@
-import axios from "axios";
 
-const URL = 'http://localhost/products_api/api/create'
+const URL = 'https://products-api-miracle.herokuapp.com/src/api/create'
 
+
+// function to add a Product to the Database
 export default async function createProduct(product) {
     const body = {
         method: 'POST',
@@ -13,10 +14,6 @@ export default async function createProduct(product) {
         .then(response =>{
             products = response.json();
         })
-        .catch(error =>{
-            console.log("errorrr: " + error)
-      });
-
 
     return products;
 
